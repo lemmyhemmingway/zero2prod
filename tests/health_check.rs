@@ -1,4 +1,5 @@
 use std::net::TcpListener;
+use zerotoprod::startup::run;
 
 
  #[actix_web::test]
@@ -69,7 +70,7 @@ async fn subscribe_returns_400_when_data_is_missing() {
  fn spawn_app() -> String {
     let listener = TcpListener::bind("127.0.0.1:0").expect("Failed to run the server");
     let port =  listener.local_addr().unwrap().port();
-    let server = zerotoprod::run(listener).expect("Failed to bind the address");
+    let server = run(listener).expect("Failed to bind the address");
 
     let _ = actix_web::rt::spawn(server);
 
