@@ -2,7 +2,7 @@
 set -x
 set -eo pipefail
 
-SKIP_DOCKER=true
+SKIP_DOCKER=false
 
 if ! [ -x "$(command -v sqlx)" ]; then
 	echo >&2 "Error: sqlx is not installed."
