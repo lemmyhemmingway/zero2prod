@@ -1,5 +1,8 @@
 use std::net::TcpListener;
 
+use sqlx::{Connection, PgConnection};
+use zerotoprod::configuration::{self, get_configuration};
+
 
 fn spawn_app() -> String{ 
     let listener = TcpListener::bind("127.0.0.1:0").expect("Failed to bind address");
@@ -34,6 +37,12 @@ async fn health_check_works() {
 async fn subscribe_returns_a_200_for_a_valid_form_data() {
     // Arrange
     let address = spawn_app();
+    let configuration = get_configuration().expect("Failed to read configuration");
+    let connection_string = configuration.database.connection_string();
+
+    let mut connection = PgConnection::connect(&connection_string)
+                    .await
+                    .expect("Couldn't connect to database");
     let client = reqwest::Client::new();
 
     // Act
