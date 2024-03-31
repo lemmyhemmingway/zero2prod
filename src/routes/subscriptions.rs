@@ -1,4 +1,5 @@
 use actix_web::{post, web, Result};
+use sqlx::PgConnection;
 
 
 
@@ -10,6 +11,6 @@ struct FormData {
 
 
 #[post("/subscriptions")]
-pub async fn subscribe(_form: web::Form<FormData>) -> Result<String> {
+pub async fn subscribe(_form: web::Form<FormData>, _connection: web::Data<PgConnection>) -> Result<String> {
     Ok(format!("{}", _form.name))
 }
